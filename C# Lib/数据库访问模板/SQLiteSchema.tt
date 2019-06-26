@@ -1,0 +1,44 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="F:/项目管理/QwLib/QwUI/bin/Debug/QwUI.dll"   #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="QwUI.Data.DIL"#>
+<#@ output extension=".cs" #>
+<# IDB db=new SQLiteDB(@"C:\Users\cd200\Desktop\白球焊接检查3D软件\","WhiteBall.db");#>
+using static QwUI.Data.DIL.SQLiteDB;
+using QwUI.Data.DIL;
+using QwUI;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+namespace DBSchema
+{
+<#= db.GetTablesDefine() #>
+<#= db.GetViewsDefine() #>
+<#= db.GetProduceDefine() #>
+}
+
+namespace DBNames
+{
+<#=db.GetTableColumnsDefine() #>
+<#=db.GetViewColumnsDefine()  #>
+<#=db.GetProduceParametersDefine()  #>
+}
+
+namespace DBModel
+{
+<#= db.GetDBModel() #>
+}
+
+namespace DIL
+{
+    public class DILDB : QwUI.Data.DIL.SQLiteDB
+    {
+<#= db.GetDeclare() #>
+    }
+}
+

@@ -1,0 +1,51 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="F:/项目管理/C# Lib/QwUI.dll"   #>
+<#@ assembly name="F:/项目管理/C# Lib/Oracle.ManagedDataAccess.dll"   #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="QwUI.Data.DIL"#>
+<#@ output extension=".cs" #>
+<#
+	string solutionsPath = Host.ResolveAssemblyReference("$(SolutionDir)");
+	string projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
+
+	IDB db=new Access03DB(projectPath, "MDE_DB.mdb", "", "");
+#>
+
+using QwUI;
+using QwUI.Data;
+using QwUI.Data.DIL;
+using static QwUI.Data.DIL.Access03DB;
+namespace DBSchema
+{
+	<#= db.GetTablesDefine() #>
+	<#= db.GetViewsDefine() #>
+	<#= db.GetProduceDefine() #>
+}
+
+namespace DBNames
+{
+	<#=db.GetTableColumnsDefine() #>
+	<#=db.GetViewColumnsDefine()  #>
+	<#=db.GetProduceParametersDefine()  #>
+}
+
+namespace DBModel
+{
+<#= db.GetDBModel() #>
+}
+
+
+
+namespace DIL
+{
+	public class DILDB : QwUI.Data.DIL.Access03DB
+	{
+	<#= db.GetDeclare() #>
+	}
+}
+

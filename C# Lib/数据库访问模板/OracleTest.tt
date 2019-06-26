@@ -1,0 +1,48 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="F:/项目管理/C# Lib/QwUI.dll"   #>
+<#@ assembly name="F:/项目管理/C# Lib/Oracle.ManagedDataAccess.dll"   #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="QwUI.Data.DIL"#>
+<#@ output extension=".cs" #>
+<# IDB db=new OracleDB("192.168.17.66:1521", "ORCL", "SMOM_MLRTM", "SMOM_MLRTM");#>
+using static QwUI.Data.DIL.OracleDB;
+using QwUI.Data.DIL;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using QwUI;
+using QwUI.Data;
+namespace SIEPhotoLine
+{
+	namespace DBSchema
+	{
+		<#= db.GetTablesDefine() #>
+		<#= db.GetViewsDefine() #>
+		<#= db.GetProduceDefine() #>
+	}
+
+	namespace DBNames
+	{
+		<#=db.GetTableColumnsDefine() #>
+		<#=db.GetViewColumnsDefine()  #>
+		<#=db.GetProduceParametersDefine()  #>
+	}
+
+	namespace DBModel
+	{
+		<#= db.GetDBModel() #>
+	}
+
+	namespace DIL
+	{
+		public class DILDB : QwUI.Data.DIL.OracleDB
+		{
+			<#= db.GetDeclare() #>
+		}
+	}
+}

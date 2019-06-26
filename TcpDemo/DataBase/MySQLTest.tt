@@ -1,0 +1,45 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="D:\浙江圣奥UV线项目\电脑直连多台设备智能线V1.0.6--浙江圣奥定制版\C# Lib\QwUI.dll"   #>
+<#@ assembly name="D:\浙江圣奥UV线项目\电脑直连多台设备智能线V1.0.6--浙江圣奥定制版\C# Lib\MySql.Data.dll"   #>
+<#@ assembly name="D:\浙江圣奥UV线项目\电脑直连多台设备智能线V1.0.6--浙江圣奥定制版\C# Lib\LoggerHelper.dll"   #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="QwUI.Data.DIL"#>
+<#@ output extension=".cs" #>
+<# IDB db=new MySQLDB("localhost:3306", "purete", "root", "root1234");#>
+using static QwUI.Data.DIL.MySQLDB;
+using QwUI.Data.DIL;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using QwUI;
+namespace DBSchema
+{
+	<#= db.GetTablesDefine() #>
+	<#= db.GetViewsDefine() #>
+	<#= db.GetProduceDefine() #>
+	}
+
+	namespace DBNames
+	{
+	<#=db.GetTableColumnsDefine() #>
+	<#=db.GetViewColumnsDefine()  #>
+	<#=db.GetProduceParametersDefine()  #>
+	}
+	namespace DBModel
+	{
+	<#= db.GetDBModel() #>
+	}
+
+	namespace DIL
+	{
+		public class DILDB : QwUI.Data.DIL.MySQLDB
+		{
+	<#= db.GetDeclare() #>
+		}
+	}
+

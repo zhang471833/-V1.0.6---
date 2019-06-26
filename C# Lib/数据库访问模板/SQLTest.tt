@@ -1,0 +1,45 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="F:/项目管理/C# Lib/QwUI.dll"   #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="QwUI.Data.DIL"#>
+<#@ output extension=".cs" #>
+<# IDB db=new SQLDB(@".\SQL2017","HCPDEMO","sa","M+123456");#>
+using static QwUI.Data.DIL.SQLDB;
+using QwUI.Data.DIL;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using QwUI;
+namespace DBSchema
+{
+<#= db.GetTablesDefine() #>
+<#= db.GetViewsDefine() #>   
+<#= db.GetProduceDefine() #>
+}
+
+namespace DBNames
+{
+<#=db.GetTableColumnsDefine() #>
+<#=db.GetViewColumnsDefine()  #>
+<#=db.GetProduceParametersDefine()  #>
+}
+
+namespace DBModel
+{
+<#= db.GetDBModel() #>
+}
+
+
+
+namespace DIL
+{
+    public class DILDB : QwUI.Data.DIL.SQLDB
+    {
+<#= db.GetDeclare() #>
+    }
+}
